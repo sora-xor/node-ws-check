@@ -3,7 +3,7 @@ import json
 
 websocket = websocket.create_connection(
     url='wss://ws.tst.sora2.soramitsu.co.jp', #node endpoint
-    timeout=20,
+    timeout=20, #timeout in seconds
     max_size=2 ** 32,
     read_limit=2 ** 32,
     write_limit=2 ** 32,
