@@ -1,19 +1,24 @@
-from scalecodec.type_registry import load_type_registry_file
-from substrateinterface import SubstrateInterface
+import websocket as websocket
+import json
 
-substrate = SubstrateInterface(
-    url='ws://ac22.sora2.soramitsu.co.jp:9944', #put WS endpoint here
-    ss58_format=69,
-    type_registry_preset='default',
-    type_registry=load_type_registry_file('custom_types.json'),
-
+websocket = websocket.create_connection(
+    url='wss://ws.tst.sora2.soramitsu.co.jp', #node endpoint
+    timeout=20,
+    max_size=2 ** 32,
+    read_limit=2 ** 32,
+    write_limit=2 ** 32,
 )
 
+payload = {
+    "jsonrpc": "2.0",
+    "method": "system_chain",
+    "params": [],
+    "id": 1
+}
 
-rpc_result = substrate.rpc_request(
-    method="system_chain",
-    params = []
-).get('result')
-print(rpc_result)
+websocket.send(json.dumps(payload))
+
+result = json.loads(websocket.recv())
+print(result['result'])
 
 
